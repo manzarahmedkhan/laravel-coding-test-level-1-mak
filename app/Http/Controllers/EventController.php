@@ -7,6 +7,7 @@ use App\Models\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Http\Controllers\ResponseController;
+use App\ApiService;
 
 class EventController extends ResponseController
 {
@@ -68,9 +69,15 @@ class EventController extends ResponseController
         $data["event_id"] = $eventId;
         $data["msg"] = "Event Created successfully";
         $data["status"] = 1;
+
         if(\Request::is('api/*')){
             return $this->successResponse($data);
         }else{
+            $subject = "Event Created";
+            $message = '<p>Event '.$request->name.' has been created</p>';
+            if(env('RECIPIENT')){
+                $mail_error = $this->sendmail(env('RECIPIENT'), $message, $subject);
+            }
             return redirect()->intended(route('events.index'))->with('message', 'Event Created successfully');
         }
     }
@@ -181,5 +188,17 @@ class EventController extends ResponseController
         $data["msg"] = "Success";
         $data["status"] = 1;
         return $this->successResponse($data);
+    }
+
+
+    /**
+     * Calling of an external API(s) and display the data in the UI
+     */
+    public function getUserDetails(){
+        $apiService = new ApiService;
+        $data = $apiService->getUser();
+        echo "<pre>";
+        print_r(json_decode($data,true));
+        echo "</pre>";
     }
 }

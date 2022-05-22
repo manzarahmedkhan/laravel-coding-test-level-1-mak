@@ -38,8 +38,7 @@ class AdminLoginController extends ResponseController
         if ($data) {
             return redirect()->back()->withInput($request->only('email', 'remember'))->with('error', 'User is Inactive');
         } else {
-                return redirect()->back()->withInput($request->only('email', 'remember'))->with('error', 'Invalid Credential');
-            }
+            return redirect()->back()->withInput($request->only('email', 'remember'))->with('error', 'Invalid Credential');
         }
 
     }

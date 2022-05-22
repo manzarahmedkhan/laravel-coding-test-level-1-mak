@@ -48,6 +48,19 @@
               </p>
           </a>
         </li>
+        <li class="nav-item 
+                {{ (request()->is('admin/getUserDetails')) ? 'menu-is-opening menu-open' : '' }}
+               ">
+                <a href="{{ url('admin/getUserDetails') }}" class="nav-link 
+                {{ (request()->is('admin/getUserDetails')) ? 'active' : '' }}
+                
+                ">
+              <i class="nav-icon fa fa-home"></i>
+              <p>
+                External Api
+              </p>
+          </a>
+        </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

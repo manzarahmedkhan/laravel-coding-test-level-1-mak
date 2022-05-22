@@ -9,7 +9,7 @@ use App\Http\Controllers\backend\HomeController;
 
 /*
 |----------------------------------------------------------------
-|	Admin Login Routes
+|   Admin Login Routes
 |----------------------------------------------------------------
  */
 Route::get('/', [AdminLoginController::class, 'showLoginForm'])->name('login');
@@ -23,7 +23,7 @@ Route::post('/forgot', [AdminForgotPasswordController::class,'sendResetLinkEmail
 Route::post('/reset', [AdminResetPasswordController::class,'reset'])->name('password.reset');
 /*
 |----------------------------------------------------------------
-|	Admin Routes
+|   Admin Routes
 |----------------------------------------------------------------
  */
 Route::group(['middleware' => ['auth:admin']], function () {
@@ -32,5 +32,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('user/profile', [HomeController::class, 'profile'])->name('user.profile');
     Route::get('user/edit/{id}', [HomeController::class, 'editProfile'])->name('user.edit');
-    Route::resource('events', 'EventController');
+    Route::resource('events', 'EventController')->only(['store','update','destroy']);
 });
+    Route::resource('events', 'EventController')->except(['store','update','destroy']);
+    Route::get('getUserDetails', 'EventController@getUserDetails');

@@ -36,7 +36,7 @@ class ResponseController extends Controller
             try {
                 dispatch(new SendEmail($recipient, $message, $subject));
             }catch (\Exception $e) {
-                $mail_error = config('constants.mail_error');
+                $mail_error = $e->getMessage();
             }
             
         return $mail_error;
