@@ -1,4 +1,4 @@
-@extends('backend.master-layouts.master')
+@extends('backend.master-layouts.main')
 @section('contentHeader')
 <div class="col-sm-6">
    <h1 class="m-0 text-dark">Location Master</h1>
