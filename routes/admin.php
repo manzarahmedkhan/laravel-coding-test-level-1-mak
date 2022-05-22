@@ -32,5 +32,5 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('user/profile', [HomeController::class, 'profile'])->name('user.profile');
     Route::get('user/edit/{id}', [HomeController::class, 'editProfile'])->name('user.edit');
-
+    Route::resource('events', 'EventController');
 });

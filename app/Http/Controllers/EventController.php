@@ -17,11 +17,16 @@ class EventController extends ResponseController
      */
     public function index()
     {
-        $events =  Event::withTrashed()->get();
-        $data["data"] = $events;
-        $data["msg"] = "Success";
-        $data["status"] = 1;
-        return $this->successResponse($data);
+        if(\Request::is('api/*')){
+            $events =  Event::withTrashed()->orderBy('id','desc')->get();
+            $data["data"] = $events;
+            $data["msg"] = "Success";
+            $data["status"] = 1;
+            return $this->successResponse($data);
+        }else{
+            $events = Event::orderBy('id','desc')->get();
+            return view('backend.Events.index',compact('events'));
+        }
     }
 
     /**
@@ -31,7 +36,7 @@ class EventController extends ResponseController
      */
     public function create()
     {
-        //
+        return view('backend.Events.create');
     }
 
     /**
@@ -63,8 +68,11 @@ class EventController extends ResponseController
         $data["event_id"] = $eventId;
         $data["msg"] = "Event Created successfully";
         $data["status"] = 1;
-       
-        return $this->successResponse($data);
+        if(\Request::is('api/*')){
+            return $this->successResponse($data);
+        }else{
+            return redirect()->intended(route('events.index'))->with('message', 'Event Created successfully');
+        }
     }
 
     /**
@@ -80,8 +88,11 @@ class EventController extends ResponseController
         $data["data"] = $event;
         $data["msg"] = "Success";
         $data["status"] = 1;
-        return $this->successResponse($data);
-        
+        if(\Request::is('api/*')){
+            return $this->successResponse($data);
+        }else{
+            return view('backend.Events.show',compact('event'));
+        }
     }
 
     /**
@@ -92,7 +103,8 @@ class EventController extends ResponseController
      */
     public function edit($id)
     {
-        //
+        $event = Event::find($id);
+        return view('backend.Events.edit',compact('event'));
     }
 
     /**
@@ -128,9 +140,13 @@ class EventController extends ResponseController
         }
 
         $data["data"] = $event;
-        $data["msg"] = "Success";
+        $data["msg"] = "Event Updated Successefully";
         $data["status"] = 1;
-        return $this->successResponse($data);
+        if(\Request::is('api/*')){
+            return $this->successResponse($data);
+        }else{
+            return redirect()->intended(route('events.index'))->with('message', 'Event Updated Successefully');
+        }
     }
 
     /**
@@ -144,9 +160,13 @@ class EventController extends ResponseController
         $event = Event::find( $id );
         $event->delete();
 
-        $data["msg"] = "Success";
+        $data["msg"] = "Event Deleted Successefully";
         $data["status"] = 1;
-        return $this->successResponse($data);
+        if(\Request::is('api/*')){
+            return $this->successResponse($data);
+        }else{
+            return redirect()->intended(route('events.index'))->with('message', 'Event Deleted Successefully');
+        }
     }
 
     /**

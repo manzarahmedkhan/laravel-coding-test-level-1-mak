@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\ResponseController;
 
 
-class AdminLoginController extends Controller
+class AdminLoginController extends ResponseController
 {
     public function __construct()
     {
@@ -31,13 +32,14 @@ class AdminLoginController extends Controller
 
         // Attempt to log the user in
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password, 'status' => 1], $request->remember)) {
-            return redirect()->intended(route('home'));
+                return redirect()->intended(url('admin/events'));
         }
         $data = Admin::where('email', $request->email)->where('password', Hash::make($request->password))->first();
         if ($data) {
             return redirect()->back()->withInput($request->only('email', 'remember'))->with('error', 'User is Inactive');
         } else {
-            return redirect()->back()->withInput($request->only('email', 'remember'))->with('error', 'Invalid Credential');
+                return redirect()->back()->withInput($request->only('email', 'remember'))->with('error', 'Invalid Credential');
+            }
         }
 
     }

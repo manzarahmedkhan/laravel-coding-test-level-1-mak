@@ -26,7 +26,8 @@
   <link rel="stylesheet" href="{{ asset('backend/plugins/daterangepicker/daterangepicker.css') }}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('backend/plugins/summernote/summernote-bs4.min.css') }}">
-
+  <!-- Datatables -->
+  <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/dataTables.bootstrap.css') }}">
   @yield('css')
 
 </head>
@@ -47,7 +48,22 @@
     
     @include('backend.includes.content-header')
 
-
+    @if(session()->has('message'))
+    <div class="container-fluid status-block">
+      <div class="alert alert-success alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>    
+        <strong>{{ session('message')  }}</strong>
+      </div>
+    </div>
+    @endif
+     @if(session()->has('delete'))
+    <div class="container-fluid status-block">
+      <div class="alert alert-danger alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>    
+        <strong>{{ session('message')  }}</strong>
+      </div>
+    </div>
+    @endif
 
     @yield('content.wrapper')
 
@@ -72,6 +88,16 @@
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
+<!-- Datatables -->
+<script src="{{ asset('backend/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('backend/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('backend/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('backend/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<!-- Select2 -->
+<script src="{{ asset('backend/plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('backend/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>  
 <!-- Bootstrap 4 -->
 <script src="{{ asset('backend/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <!-- ChartJS -->
@@ -96,5 +122,18 @@
 <script src="{{ asset('backend/dist/js/adminlte.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('backend/dist/js/pages/dashboard.js') }}"></script>
+<script>
+  $(function () {
+    $('.select2').select2()
+    $('#admin-datatable').DataTable({
+        'paging'      : true,
+        'ordering'    : true,
+        "initComplete": function (settings, json) {  
+        $("#admin-datatable").wrap("<div style='overflow:auto; width:100%;position:relative;'></div>");            
+      },
+    });
+  });
+</script>
+@yield('js')
 </body>
 </html>

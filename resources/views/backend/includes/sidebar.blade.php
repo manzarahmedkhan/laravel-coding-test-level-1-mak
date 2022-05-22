@@ -14,7 +14,7 @@
         <img src="{{ asset('backend/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
-        <a href="{{route('user.profile')}}" class="d-block">{{ Auth::user()->name }}</a>
+        <a href="{{route('user.profile')}}" class="d-block">{{ Auth::guard('admin')->user()->name?? 'User' }}</a>
       </div>
     </div>
 
@@ -36,46 +36,17 @@
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
         <li class="nav-item 
-                {{ (request()->is('admin/home*')) ? 'menu-is-opening menu-open' : '' }}
+                {{ (request()->is('admin/events*')) ? 'menu-is-opening menu-open' : '' }}
                ">
-                <a href="{{ url('admin/home') }}" class="nav-link 
-                {{ (request()->is('admin/home*')) ? 'active' : '' }}
+                <a href="{{ url('admin/events') }}" class="nav-link 
+                {{ (request()->is('admin/events*')) ? 'active' : '' }}
                 
                 ">
               <i class="nav-icon fa fa-home"></i>
               <p>
-                Dashboard
+                Events
               </p>
           </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fa fa-table"></i>
-            <p>
-              Master
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="pages/charts/chartjs.html" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>master-1</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="pages/charts/flot.html" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>master-2</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="pages/charts/inline.html" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>master-3</p>
-              </a>
-            </li>
-          </ul>
         </li>
       </ul>
     </nav>
